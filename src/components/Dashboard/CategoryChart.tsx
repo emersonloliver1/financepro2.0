@@ -7,7 +7,6 @@ interface CategoryChartProps {
 
 const COLORS = ['#7C3AED', '#9F7AEA', '#B794F4', '#D6BCFA', '#E9D8FD', '#805AD5', '#6B46C1'];
 
-const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -17,8 +16,10 @@ const renderCustomizedLabel = ({
   percent,
 }: any) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+  const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+
+  if (percent < 0.05) return null; // Não mostra rótulos para fatias muito pequenas
 
   return (
     <text
@@ -27,6 +28,7 @@ const renderCustomizedLabel = ({
       fill="white"
       textAnchor={x > cx ? 'start' : 'end'}
       dominantBaseline="central"
+      fontSize={12}
     >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
@@ -43,9 +45,9 @@ export const CategoryChart = ({ data }: CategoryChartProps) => {
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm">
-      <h3 className="text-lg font-semibold mb-4">Gastos por Categoria</h3>
+      <h3 className="text-lg font-semibold mb-6">Gastos por Categoria</h3>
       
-      <div className="h-[300px]">
+      <div className="h-[300px] mb-6">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -55,9 +57,11 @@ export const CategoryChart = ({ data }: CategoryChartProps) => {
               labelLine={false}
               label={renderCustomizedLabel}
               outerRadius={100}
+              innerRadius={40}
               fill="#8884d8"
               dataKey="total"
               nameKey="category"
+              paddingAngle={2}
             >
               {formattedData.map((entry, index) => (
                 <Cell 
@@ -72,27 +76,40 @@ export const CategoryChart = ({ data }: CategoryChartProps) => {
                 `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
                 'Valor'
               ]}
+              contentStyle={{
+                backgroundColor: 'white',
+                border: '1px solid #e2e8f0',
+                borderRadius: '0.5rem',
+                padding: '0.5rem',
+              }}
             />
-            <Legend />
+            <Legend 
+              layout="horizontal" 
+              verticalAlign="bottom" 
+              align="center"
+              wrapperStyle={{
+                paddingTop: '20px',
+              }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-4 space-y-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {formattedData.map((item, index) => (
-          <div key={item.category} className="flex justify-between items-center">
+          <div key={item.category} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <div className="flex items-center">
               <div 
-                className="w-3 h-3 rounded-full mr-2"
+                className="w-3 h-3 rounded-full mr-2 flex-shrink-0"
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
               />
-              <span>{item.category}</span>
+              <span className="text-sm truncate">{item.category}</span>
             </div>
-            <div className="text-right">
-              <span className="font-medium">
+            <div className="text-right flex-shrink-0">
+              <span className="font-medium text-sm">
                 R$ {item.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </span>
-              <span className="text-gray-500 text-sm ml-2">
+              <span className="text-gray-500 text-xs ml-2">
                 ({item.percentage}%)
               </span>
             </div>
