@@ -1,6 +1,38 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { TransactionType } from '@/types/transactions';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+const EXPENSE_CATEGORIES = [
+  'Alimentação',
+  'Transporte',
+  'Moradia',
+  'Saúde',
+  'Educação',
+  'Lazer',
+  'Outros'
+];
+
+const INCOME_CATEGORIES = [
+  'Salário',
+  'Freelance',
+  'Investimentos',
+  'Outros'
+];
 
 interface TransactionFormProps {
   onSubmit: (transaction: {
@@ -36,61 +68,74 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Tipo
-          </label>
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value as TransactionType)}
-            className="w-full rounded-md border border-gray-300 p-2"
+          <Label>Tipo</Label>
+          <Select 
+            value={type} 
+            onValueChange={(value) => setType(value as TransactionType)}
           >
-            <option value="expense">Despesa</option>
-            <option value="income">Receita</option>
-          </select>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="expense">Despesa</SelectItem>
+              <SelectItem value="income">Receita</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Valor
-          </label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-md border border-gray-300 p-2"
-            placeholder="0,00"
-            required
-          />
+          <Label>Valor</Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="0,00"
+                  required
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Digite o valor da transação</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Descrição
-          </label>
-          <input
+          <Label>Descrição</Label>
+          <Input
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-md border border-gray-300 p-2"
             placeholder="Digite a descrição"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Categoria
-          </label>
-          <input
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full rounded-md border border-gray-300 p-2"
-            placeholder="Digite a categoria"
-            required
-          />
+          <Label>Categoria</Label>
+          <Select 
+            value={category} 
+            onValueChange={setCategory}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione a categoria" />
+            </SelectTrigger>
+            <SelectContent>
+              {type === 'expense' 
+                ? EXPENSE_CATEGORIES.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))
+                : INCOME_CATEGORIES.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))
+              }
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
