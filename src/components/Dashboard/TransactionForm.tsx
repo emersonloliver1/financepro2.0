@@ -46,29 +46,26 @@ const formSchema = z.object({
   category: z.string().min(1, 'Selecione uma categoria'),
 });
 
+type FormData = z.infer<typeof formSchema>;
+
 interface TransactionFormProps {
-  onSubmit: (transaction: {
-    type: TransactionType;
-    amount: number;
-    description: string;
-    category: string;
-  }) => void;
+  onSubmit: (transaction: FormData) => void;
 }
 
 export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
   const [type, setType] = useState<TransactionType>('expense');
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       type: 'expense',
-      amount: undefined,
+      amount: 0,
       description: '',
       category: '',
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = (values: FormData) => {
     onSubmit(values);
     form.reset();
   };
