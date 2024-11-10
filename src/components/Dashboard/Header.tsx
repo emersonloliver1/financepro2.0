@@ -16,13 +16,18 @@ export const Header = () => {
   const MenuList = () => (
     <List>
       {menuItems.map((item) => (
-        <ListItem button key={item.text} component="a" href={item.href}>
-          <ListItemText 
-            primary={item.text}
-            primaryTypographyProps={{
-              className: "text-gray-700 hover:text-primary transition-colors"
-            }}
-          />
+        <ListItem
+          key={item.text}
+          sx={{ padding: 0 }}
+        >
+          <ListItemText>
+            <a 
+              href={item.href}
+              className="block px-4 py-2 text-gray-700 hover:text-primary transition-colors"
+            >
+              {item.text}
+            </a>
+          </ListItemText>
         </ListItem>
       ))}
     </List>
