@@ -44,3 +44,33 @@
 .card-gradient {
   background: linear-gradient(135deg, #7C3AED 0%, #9F7AEA 100%);
 }
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Glass effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Improved shadows */
+.shadow-gradient {
+  box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.1),
+              0 2px 4px -1px rgba(124, 58, 237, 0.06);
+}
