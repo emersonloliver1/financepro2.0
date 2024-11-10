@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Menu as MenuIcon, X, Home, Receipt, PieChart, Sparkles } from 'lucide-react';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, useTheme, useMediaQuery } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Drawer } from '@mui/material';
+import { motion } from 'framer-motion';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const menuItems = [
     { text: 'Dashboard', href: '#', icon: <Home size={20} /> },
@@ -14,68 +13,67 @@ export const Header = () => {
   ];
 
   const MenuList = () => (
-    <List>
+    <div className="p-4">
       {menuItems.map((item) => (
-        <ListItem
+        <motion.div
           key={item.text}
-          sx={{ padding: 0 }}
+          whileHover={{ x: 5 }}
+          className="mb-2"
         >
-          <ListItemText>
-            <a 
-              href={item.href}
-              className="flex items-center gap-2 px-4 py-3 text-gray-700 hover:text-primary hover:bg-purple-50 transition-all rounded-lg"
-            >
-              {item.icon}
-              {item.text}
-            </a>
-          </ListItemText>
-        </ListItem>
+          <a 
+            href={item.href}
+            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-primary hover:bg-primary-light/20 rounded-lg transition-all"
+          >
+            {item.icon}
+            <span className="font-medium">{item.text}</span>
+          </a>
+        </motion.div>
       ))}
-    </List>
+    </div>
   );
 
   return (
-    <AppBar position="static" className="bg-white shadow-sm">
+    <AppBar position="static" className="bg-white shadow-card">
       <Toolbar className="container mx-auto px-4">
-        <div className="flex items-center gap-2">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2"
+        >
           <Sparkles className="text-primary h-6 w-6" />
-          <Typography
-            variant="h6"
-            component="h1"
-            className="text-2xl font-heading font-bold text-primary flex-grow"
-          >
+          <h1 className="text-2xl font-heading font-bold text-primary">
             MoneyMind
-          </Typography>
-        </div>
+          </h1>
+        </motion.div>
 
-        {isMobile ? (
-          <>
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700"
-            >
-              {isMenuOpen ? <X size={24} /> : <MenuIcon size={24} />}
-            </IconButton>
-            
-            <Drawer
-              anchor="right"
-              open={isMenuOpen}
-              onClose={() => setIsMenuOpen(false)}
-              className="w-64"
-            >
-              <div className="p-4">
-                <MenuList />
-              </div>
-            </Drawer>
-          </>
-        ) : (
-          <nav>
+        <div className="flex-grow" />
+
+        <div className="hidden md:block">
+          <nav className="flex items-center gap-2">
             <MenuList />
           </nav>
-        )}
+        </div>
+
+        <div className="md:hidden">
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="text-gray-700"
+          >
+            {isMenuOpen ? <X size={24} /> : <MenuIcon size={24} />}
+          </IconButton>
+          
+          <Drawer
+            anchor="right"
+            open={isMenuOpen}
+            onClose={() => setIsMenuOpen(false)}
+            className="w-64"
+          >
+            <MenuList />
+          </Drawer>
+        </div>
       </Toolbar>
     </AppBar>
   );

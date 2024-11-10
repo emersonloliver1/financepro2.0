@@ -22,14 +22,17 @@ export default {
         primary: {
           DEFAULT: "#7C3AED",
           hover: "#6D28D9",
+          light: "#DDD6FE",
         },
         success: {
           DEFAULT: "#10B981",
           hover: "#059669",
+          light: "#D1FAE5",
         },
         danger: {
           DEFAULT: "#EF4444",
           hover: "#DC2626",
+          light: "#FEE2E2",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -45,6 +48,10 @@ export default {
         sans: ["Inter", "sans-serif"],
         heading: ["Poppins", "sans-serif"],
       },
+      boxShadow: {
+        'card': '0 4px 6px -1px rgba(124, 58, 237, 0.1), 0 2px 4px -1px rgba(124, 58, 237, 0.06)',
+        'card-hover': '0 10px 15px -3px rgba(124, 58, 237, 0.1), 0 4px 6px -2px rgba(124, 58, 237, 0.05)',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -54,10 +61,20 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float": "float 3s ease-in-out infinite",
+        "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

@@ -17,8 +17,9 @@ export const BalanceCard = ({ balance, income, expenses }: BalanceCardProps) => 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="card-gradient rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow"
+        whileHover={{ y: -5 }}
+        transition={{ duration: 0.3 }}
+        className="card-gradient rounded-xl p-6 text-white shadow-card hover:shadow-card-hover"
       >
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Saldo Total</h3>
@@ -27,7 +28,7 @@ export const BalanceCard = ({ balance, income, expenses }: BalanceCardProps) => 
         <p className="text-3xl font-bold mb-3">
           R$ {balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
         </p>
-        <div className="flex items-center text-sm bg-white/10 rounded-lg px-3 py-2">
+        <div className="flex items-center text-sm bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
           {balance >= 0 ? (
             <>
               <TrendingUp className="h-4 w-4 mr-2" />
@@ -45,8 +46,9 @@ export const BalanceCard = ({ balance, income, expenses }: BalanceCardProps) => 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
+        whileHover={{ y: -5 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover"
       >
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Receitas</h3>
@@ -60,15 +62,18 @@ export const BalanceCard = ({ balance, income, expenses }: BalanceCardProps) => 
             <span className="text-gray-600">Meta de economia</span>
             <span className="font-medium">{savingsPercentage.toFixed(1)}%</span>
           </div>
-          <Progress value={savingsPercentage} className="h-2.5" />
+          <Progress value={savingsPercentage} className="h-2.5 bg-success-light">
+            <div className="h-full bg-success rounded-full transition-all duration-500 ease-in-out" />
+          </Progress>
         </div>
       </motion.div>
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
+        whileHover={{ y: -5 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover"
       >
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Despesas</h3>
@@ -82,7 +87,9 @@ export const BalanceCard = ({ balance, income, expenses }: BalanceCardProps) => 
             <span className="text-gray-600">Do total de receitas</span>
             <span className="font-medium">{expensePercentage.toFixed(1)}%</span>
           </div>
-          <Progress value={expensePercentage} className="h-2.5" />
+          <Progress value={expensePercentage} className="h-2.5 bg-danger-light">
+            <div className="h-full bg-danger rounded-full transition-all duration-500 ease-in-out" />
+          </Progress>
         </div>
       </motion.div>
     </div>
