@@ -33,7 +33,7 @@ export const Header = () => {
   );
 
   return (
-    <AppBar position="static" className="bg-white shadow-card">
+    <AppBar position="static" className="bg-white shadow-sm border-b border-gray-200">
       <Toolbar className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
