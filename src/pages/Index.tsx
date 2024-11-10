@@ -4,6 +4,7 @@ import { BalanceCard } from '@/components/Dashboard/BalanceCard';
 import { TransactionForm } from '@/components/Dashboard/TransactionForm';
 import { TransactionList } from '@/components/Dashboard/TransactionList';
 import { CategoryChart } from '@/components/Dashboard/CategoryChart';
+import { BudgetManager } from '@/components/Dashboard/BudgetManager';
 import { Transaction, TransactionType } from '@/types/transactions';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -46,6 +47,8 @@ const Index = () => {
     amount: number;
     description: string;
     category: string;
+    recurrence?: 'one-time' | 'monthly' | 'yearly';
+    tags?: string[];
   }) => {
     const newTransaction: Transaction = {
       id: Math.random().toString(36).substr(2, 9),
@@ -78,7 +81,10 @@ const Index = () => {
             <CategoryChart data={calculateCategoryTotals()} />
           </div>
           
-          <TransactionList transactions={transactions} />
+          <div className="space-y-8">
+            <BudgetManager />
+            <TransactionList transactions={transactions} />
+          </div>
         </div>
       </main>
     </div>

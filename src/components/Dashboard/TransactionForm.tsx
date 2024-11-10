@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { TransactionType } from '@/types/transactions';
+import { TransactionType, RecurrenceType } from '@/types/transactions';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -39,11 +39,15 @@ const INCOME_CATEGORIES = [
   'Outros'
 ];
 
+const RECURRENCE_OPTIONS: RecurrenceType[] = ['one-time', 'monthly', 'yearly'];
+
 const formSchema = z.object({
   type: z.enum(['expense', 'income']),
   amount: z.number().positive('O valor deve ser maior que zero'),
   description: z.string().min(3, 'A descrição deve ter pelo menos 3 caracteres'),
   category: z.string().min(1, 'Selecione uma categoria'),
+  recurrence: z.enum(['one-time', 'monthly', 'yearly']).optional(),
+  tags: z.array(z.string()).optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -54,6 +58,8 @@ interface TransactionFormProps {
 
 export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
   const [type, setType] = useState<TransactionType>('expense');
+  const [tags, setTags] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState('');
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -62,12 +68,23 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
       amount: 0,
       description: '',
       category: '',
+      recurrence: 'one-time',
+      tags: [],
     },
   });
 
+  const handleAddTag = () => {
+    if (newTag && !tags.includes(newTag)) {
+      setTags([...tags, newTag]);
+      form.setValue('tags', [...tags, newTag]);
+      setNewTag('');
+    }
+  };
+
   const handleSubmit = (values: FormData) => {
-    onSubmit(values);
+    onSubmit({ ...values, tags });
     form.reset();
+    setTags([]);
   };
 
   return (
@@ -166,6 +183,56 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
               </FormItem>
             )}
           />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <FormField
+            control={form.control}
+            name="recurrence"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Recorrência</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione a recorrência" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="one-time">Única vez</SelectItem>
+                    <SelectItem value="monthly">Mensal</SelectItem>
+                    <SelectItem value="yearly">Anual</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div>
+            <FormLabel>Tags</FormLabel>
+            <div className="flex gap-2">
+              <Input
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                placeholder="Adicionar tag"
+                className="flex-1"
+              />
+              <Button type="button" onClick={handleAddTag} variant="outline">
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="bg-primary/10 text-primary px-2 py-1 rounded-full text-sm"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
 
         <Button
