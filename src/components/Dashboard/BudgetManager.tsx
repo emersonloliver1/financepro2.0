@@ -39,20 +39,22 @@ export const BudgetManager = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm">
-      <h3 className="text-lg font-semibold mb-6">Gerenciamento de Orçamento</h3>
+    <div className="bg-background rounded-lg p-6 shadow-sm border border-border">
+      <h3 className="text-lg font-semibold mb-6 text-foreground">Gerenciamento de Orçamento</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Input
           placeholder="Categoria"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
+          className="bg-background text-foreground"
         />
         <Input
           type="number"
           placeholder="Limite (R$)"
           value={newLimit}
           onChange={(e) => setNewLimit(e.target.value)}
+          className="bg-background text-foreground"
         />
         <Button onClick={handleAddBudget} className="w-full">
           <Plus className="w-4 h-4 mr-2" />
@@ -62,16 +64,16 @@ export const BudgetManager = () => {
 
       <div className="space-y-4">
         {budgets.map((budget, index) => (
-          <div key={index} className="p-4 border rounded-lg">
+          <div key={index} className="p-4 border rounded-lg bg-muted">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-medium">{budget.category}</span>
-              <span className="text-sm text-gray-500">
+              <span className="font-medium text-foreground">{budget.category}</span>
+              <span className="text-sm text-muted-foreground">
                 R$ {budget.spent.toFixed(2)} / R$ {budget.limit.toFixed(2)}
               </span>
             </div>
             <Progress value={(budget.spent / budget.limit) * 100} />
             {budget.spent > budget.limit && (
-              <div className="flex items-center mt-2 text-sm text-danger">
+              <div className="flex items-center mt-2 text-sm text-destructive">
                 <AlertTriangle className="w-4 h-4 mr-1" />
                 Limite excedido
               </div>

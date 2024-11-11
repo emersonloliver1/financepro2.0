@@ -1,5 +1,4 @@
 import { CategoryChart } from '@/components/Dashboard/CategoryChart';
-import { Header } from '@/components/Dashboard/Header';
 
 const Categories = () => {
   const mockData = [
@@ -10,11 +9,8 @@ const Categories = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="container mx-auto px-4 py-8">
-        <CategoryChart data={mockData} />
-      </main>
+    <div className="space-y-8">
+      <CategoryChart data={mockData} />
     </div>
   );
 };

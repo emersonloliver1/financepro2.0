@@ -19,7 +19,7 @@ const renderCustomizedLabel = ({
   const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
   const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
 
-  if (percent < 0.05) return null; // Não mostra rótulos para fatias muito pequenas
+  if (percent < 0.05) return null;
 
   return (
     <text
@@ -44,8 +44,8 @@ export const CategoryChart = ({ data }: CategoryChartProps) => {
   }));
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm">
-      <h3 className="text-lg font-semibold mb-6">Gastos por Categoria</h3>
+    <div className="bg-background rounded-lg p-6 shadow-sm border border-border">
+      <h3 className="text-lg font-semibold mb-6 text-foreground">Gastos por Categoria</h3>
       
       <div className="h-[300px] mb-6">
         <ResponsiveContainer width="100%" height="100%">
@@ -77,10 +77,11 @@ export const CategoryChart = ({ data }: CategoryChartProps) => {
                 'Valor'
               ]}
               contentStyle={{
-                backgroundColor: 'white',
-                border: '1px solid #e2e8f0',
+                backgroundColor: 'var(--background)',
+                border: '1px solid var(--border)',
                 borderRadius: '0.5rem',
                 padding: '0.5rem',
+                color: 'var(--foreground)'
               }}
             />
             <Legend 
@@ -97,19 +98,19 @@ export const CategoryChart = ({ data }: CategoryChartProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {formattedData.map((item, index) => (
-          <div key={item.category} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+          <div key={item.category} className="flex items-center justify-between p-3 bg-muted rounded-lg">
             <div className="flex items-center">
               <div 
                 className="w-3 h-3 rounded-full mr-2 flex-shrink-0"
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
               />
-              <span className="text-sm truncate">{item.category}</span>
+              <span className="text-sm truncate text-foreground">{item.category}</span>
             </div>
             <div className="text-right flex-shrink-0">
-              <span className="font-medium text-sm">
+              <span className="font-medium text-sm text-foreground">
                 R$ {item.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </span>
-              <span className="text-gray-500 text-xs ml-2">
+              <span className="text-muted-foreground text-xs ml-2">
                 ({item.percentage}%)
               </span>
             </div>
