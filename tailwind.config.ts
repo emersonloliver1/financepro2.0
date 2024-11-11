@@ -23,6 +23,7 @@ export default {
           DEFAULT: "#7C3AED",
           hover: "#6D28D9",
           light: "#DDD6FE",
+          dark: "#5B21B6",
         },
         success: {
           DEFAULT: "#10B981",
@@ -43,6 +44,12 @@ export default {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        dark: {
+          background: "#1A1B1E",
+          card: "#25262B",
+          border: "#2C2E33",
+          text: "#C1C2C5",
+        },
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
@@ -51,6 +58,7 @@ export default {
       boxShadow: {
         'card': '0 4px 6px -1px rgba(124, 58, 237, 0.1), 0 2px 4px -1px rgba(124, 58, 237, 0.06)',
         'card-hover': '0 10px 15px -3px rgba(124, 58, 237, 0.1), 0 4px 6px -2px rgba(124, 58, 237, 0.05)',
+        'dark-card': '0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1)',
       },
       keyframes: {
         "accordion-down": {
