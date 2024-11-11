@@ -89,7 +89,7 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="bg-white rounded-lg p-6 shadow-sm mb-8">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="bg-white/80 backdrop-blur-md rounded-lg p-6 shadow-sm mb-8">
         <h3 className="text-lg font-semibold mb-4">Nova Transação</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -107,11 +107,11 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white/80 backdrop-blur-md border border-gray-200">
                       <SelectValue placeholder="Selecione o tipo" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="bg-white/80 backdrop-blur-md border border-gray-200">
                     <SelectItem value="expense">Despesa</SelectItem>
                     <SelectItem value="income">Receita</SelectItem>
                   </SelectContent>
@@ -131,6 +131,7 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
                   <Input
                     type="number"
                     placeholder="0,00"
+                    className="bg-white/80 backdrop-blur-md border border-gray-200"
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
@@ -149,7 +150,11 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
               <FormItem>
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Digite a descrição" />
+                  <Input 
+                    {...field} 
+                    placeholder="Digite a descrição" 
+                    className="bg-white/80 backdrop-blur-md border border-gray-200"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -164,11 +169,11 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
                 <FormLabel>Categoria</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white/80 backdrop-blur-md border border-gray-200">
                       <SelectValue placeholder="Selecione a categoria" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="bg-white/80 backdrop-blur-md border border-gray-200">
                     {type === 'expense' 
                       ? EXPENSE_CATEGORIES.map(cat => (
                           <SelectItem key={cat} value={cat}>{cat}</SelectItem>
@@ -194,11 +199,11 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
                 <FormLabel>Recorrência</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white/80 backdrop-blur-md border border-gray-200">
                       <SelectValue placeholder="Selecione a recorrência" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="bg-white/80 backdrop-blur-md border border-gray-200">
                     <SelectItem value="one-time">Única vez</SelectItem>
                     <SelectItem value="monthly">Mensal</SelectItem>
                     <SelectItem value="yearly">Anual</SelectItem>
@@ -216,9 +221,9 @@ export const TransactionForm = ({ onSubmit }: TransactionFormProps) => {
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 placeholder="Adicionar tag"
-                className="flex-1"
+                className="flex-1 bg-white/80 backdrop-blur-md border border-gray-200"
               />
-              <Button type="button" onClick={handleAddTag} variant="outline">
+              <Button type="button" onClick={handleAddTag} variant="outline" className="bg-white/80 backdrop-blur-md">
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
