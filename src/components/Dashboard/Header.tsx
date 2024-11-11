@@ -22,7 +22,7 @@ export const Header = () => {
         >
           <a 
             href={item.href}
-            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-primary hover:bg-primary-light/20 rounded-lg transition-all"
+            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-all"
           >
             {item.icon}
             <span className="font-medium">{item.text}</span>
@@ -33,15 +33,19 @@ export const Header = () => {
   );
 
   return (
-    <AppBar position="static" className="bg-white shadow-sm border-b border-gray-200">
-      <Toolbar className="container mx-auto px-4">
+    <AppBar 
+      position="static" 
+      className="bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-none"
+      style={{ boxShadow: '0 1px 0 rgba(0, 0, 0, 0.05)' }}
+    >
+      <Toolbar className="container mx-auto px-4 py-2">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-2"
         >
-          <Sparkles className="text-primary h-6 w-6" />
-          <h1 className="text-2xl font-heading font-bold text-primary">
+          <Sparkles className="text-primary h-5 w-5" />
+          <h1 className="text-xl font-heading font-semibold text-gray-900">
             MoneyMind
           </h1>
         </motion.div>
@@ -49,8 +53,18 @@ export const Header = () => {
         <div className="flex-grow" />
 
         <div className="hidden md:block">
-          <nav className="flex items-center gap-2">
-            <MenuList />
+          <nav className="flex items-center gap-4">
+            {menuItems.map((item) => (
+              <motion.a
+                key={item.text}
+                href={item.href}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                whileHover={{ scale: 1.05 }}
+              >
+                {item.icon}
+                <span>{item.text}</span>
+              </motion.a>
+            ))}
           </nav>
         </div>
 
@@ -70,6 +84,9 @@ export const Header = () => {
             open={isMenuOpen}
             onClose={() => setIsMenuOpen(false)}
             className="w-64"
+            PaperProps={{
+              className: "bg-white/80 backdrop-blur-md"
+            }}
           >
             <MenuList />
           </Drawer>
