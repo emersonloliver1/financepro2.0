@@ -5,9 +5,9 @@ const Dashboard = () => {
   return (
     <div className="space-y-8">
       <BalanceCard
-        balance={10000}
-        income={15000}
-        expenses={5000}
+        balance={0}
+        income={0}
+        expenses={0}
       />
       <div className="grid grid-cols-1 gap-8">
         <BudgetManager />
