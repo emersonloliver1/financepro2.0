@@ -91,6 +91,9 @@ export const CategoryChart = ({ data }: CategoryChartProps) => {
               wrapperStyle={{
                 paddingTop: '20px',
               }}
+              formatter={(value) => (
+                <span className="text-foreground">{value}</span>
+              )}
             />
           </PieChart>
         </ResponsiveContainer>

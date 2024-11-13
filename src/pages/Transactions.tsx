@@ -1,6 +1,5 @@
 import { TransactionForm } from '@/components/Dashboard/TransactionForm';
 import { TransactionList } from '@/components/Dashboard/TransactionList';
-import { Header } from '@/components/Dashboard/Header';
 import { useState } from 'react';
 import { Transaction, TransactionType } from '@/types/transactions';
 import { useToast } from '@/components/ui/use-toast';
@@ -32,14 +31,11 @@ const Transactions = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 gap-8">
-          <TransactionForm onSubmit={handleNewTransaction} />
-          <TransactionList transactions={transactions} />
-        </div>
-      </main>
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 gap-8">
+        <TransactionForm onSubmit={handleNewTransaction} />
+        <TransactionList transactions={transactions} />
+      </div>
     </div>
   );
 };
